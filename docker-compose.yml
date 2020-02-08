@@ -3,19 +3,14 @@ version: '2'
 services:
   mongodb:
     image: 'mongo'
-    environment:
-      - MONGO_INITDB_DATABASE=partners-location
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
+    ports:
+      - 27017:27017
+
   app:
     tty: true
-    build: .
     environment:
-      - DATABASE_HOST-127.0.0.1
-      - DATABASE_TYPE=mongodb
-      - DATABASE_NAME=partners-location
-      - DATABASE_USERNAME=root
-      - DATABASE_PASSWORD=root
+      - DATABASE_URI=mongodb://mongodb:27017/partners-location
+    build: .
     depends_on:
       - mongodb
     ports:
