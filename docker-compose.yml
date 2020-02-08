@@ -1,0 +1,21 @@
+version: "2"
+
+services:
+  mongodb:
+    image: "mongo"
+    environment:
+      - MONGO_INITDB_DATABASE=partners-location
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+  app:
+    tty: true
+    image: "node"
+    environment:
+      - DATABASE_TYPE=mongodb
+      - DATABASE_NAME=partners-location
+    depends_on:
+      - mongodb
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
