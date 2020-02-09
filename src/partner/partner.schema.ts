@@ -20,7 +20,4 @@ export const PartnerSchema = new mongoose.Schema({
   },
 });
 
-PartnerSchema.plugin(AutoIncrementFactory(mongoose), {
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  inc_field: 'id',
-});
+PartnerSchema.plugin(AutoIncrementFactory(mongoose), { inc_field: 'id' });
