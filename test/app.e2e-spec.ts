@@ -1,13 +1,13 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import { getModelToken } from '@nestjs/mongoose';
+import { Test, TestingModule } from '@nestjs/testing';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import * as mongoose from 'mongoose';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+
 import { PartnerController } from '../src/partner/partner.controller';
 import { PartnerService } from '../src/partner/partner.service';
-import { getModelToken } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
-import { DatabaseModule } from '../src/database/database.module';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import { AppModule } from './../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
