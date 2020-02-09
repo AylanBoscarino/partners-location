@@ -21,4 +21,8 @@ export class PartnerService {
   async get(id: number): Promise<PartnerInterface> {
     return this.partnerModel.findById(id);
   }
+
+  async create(partner: PartnerInterface): Promise<PartnerInterface> {
+    return this.partnerModel.create(partner);
+  }
 }

@@ -50,6 +50,11 @@ describe('PartnerService', () => {
     expect(await service.get(1)).toEqual(mockedData[0]);
     expect(modelMock.findById).toBeCalledWith(1);
   });
+
+  it('should create a new partner', async () => {
+    modelMock.create.mockImplementation(async (args: PartnerInterface) => args);
+    expect(await service.create(mockedData[0])).toEqual(mockedData[0]);
+  });
 });
 
 const mockedData: PartnerInterface[] = [
