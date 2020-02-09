@@ -3,7 +3,7 @@ import {
   registerDecorator,
   ValidationArguments,
 } from 'class-validator';
-import { GeoJsonType } from '../partner/partner.interface';
+import { GeoJsonType, GeoJson } from '../geojson/geojson.interface';
 
 export function IsGeoJson(
   geoJsonType: GeoJsonType,
@@ -17,16 +17,25 @@ export function IsGeoJson(
       constraints: [geoJsonType],
       options: validationOptions,
       validator: {
-        validate(value: Record<string, any>, _args: ValidationArguments) {
-          if (value.type !== geoJsonType) {
-            return false;
-          }
-          return coordinateValidator[value.type](value.coordinates);
+        validate(value: any, _args: ValidationArguments) {
+          return validateGeoJson(value, geoJsonType);
         },
       },
     });
   };
 }
+
+function validateGeoJson(value: GeoJson, type: GeoJsonType) {
+  if (value.type !== type) {
+    return false;
+  }
+  try {
+    return coordinateValidator[value.type](value.coordinates);
+  } catch {
+    return false;
+  }
+}
+
 const coordinateValidator: Record<GeoJsonType, (args: any[]) => boolean> = {
   MultiPolygon(args: any) {
     const [long, lat] = args[0][0][0];

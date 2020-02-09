@@ -8,7 +8,7 @@ import {
 } from './partner.interface';
 import { Model } from 'mongoose';
 
-const partinerModelMockFactory = createMockFactory<
+const partnerModelMockFactory = createMockFactory<
   Model<PartnerInterfaceDocument>
 >({
   find: jest.fn(entity => new Promise(resolve => resolve(entity))),
@@ -26,7 +26,7 @@ describe('PartnerService', () => {
         PartnerService,
         {
           provide: getModelToken('Partner'),
-          useFactory: partinerModelMockFactory,
+          useFactory: partnerModelMockFactory,
         },
       ],
     }).compile();

@@ -2,11 +2,7 @@ import * as mongoose from 'mongoose';
 import * as AutoIncrementFactory from 'mongoose-sequence';
 
 export const PartnerSchema = new mongoose.Schema({
-  id: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
+  id: { type: Number, required: true, unique: true },
   tradingName: { type: String, required: true },
   ownerName: { type: String, required: true },
   document: { type: String, required: true, unique: true },

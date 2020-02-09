@@ -22,7 +22,9 @@ export class PartnerService {
     return this.partnerModel.findById(id);
   }
 
-  async create(partner: PartnerInterface): Promise<PartnerInterface> {
+  async create(
+    partner: Omit<PartnerInterface, 'id'>,
+  ): Promise<PartnerInterface> {
     return this.partnerModel.create(partner);
   }
 }

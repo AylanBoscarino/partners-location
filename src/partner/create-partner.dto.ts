@@ -1,6 +1,8 @@
 import { IsNotEmpty } from 'class-validator';
+
+import { MultiPolygon, Point } from '../geojson/geojson.interface';
 import { IsGeoJson } from '../util/decorators';
-import { MultiPolygon, Point } from './partner.interface';
+
 export class CreatePartnerDto {
   @IsNotEmpty()
   tradingName: string;
