@@ -26,4 +26,6 @@ export class PartnerService {
   async create(partner: CreatePartnerDto): Promise<PartnerInterface> {
     return this.partnerModel.create(partner);
   }
+
+  async searchNearest(lng: number, lat: number) {}
 }

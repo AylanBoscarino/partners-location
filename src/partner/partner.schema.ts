@@ -16,4 +16,5 @@ export const PartnerSchema = new mongoose.Schema({
   },
 });
 
+PartnerSchema.index({ location: '2dsphere' });
 PartnerSchema.plugin(AutoIncrementFactory(mongoose), { inc_field: 'id' });

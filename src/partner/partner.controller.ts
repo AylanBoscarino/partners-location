@@ -7,6 +7,7 @@ import {
   Post,
   Body,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { PartnerService } from './partner.service';
 import { CreatePartnerDto } from './create-partner.dto';
@@ -35,5 +36,13 @@ export class PartnerController {
   @HttpCode(201)
   async store(@Body() createPartnerDto: CreatePartnerDto) {
     return this.partnerService.create(createPartnerDto);
+  }
+
+  @Get('search')
+  async search(@Query('lng') queryLng: string, @Query('lat') queryLat: string) {
+    return this.partnerService.searchNearest(
+      Number(queryLng),
+      Number(queryLat),
+    );
   }
 }

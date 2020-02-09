@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import mongoose = require('mongoose');
 
 @Module({
   imports: [
@@ -8,11 +9,14 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forRootAsync({
       imports: [ConfigModule.forRoot()],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('DATABASE_URI'),
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }),
+      useFactory: async (configService: ConfigService) => {
+        mongoose.Promise = global.Promise;
+        return {
+          uri: configService.get<string>('DATABASE_URI'),
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+        };
+      },
     }),
   ],
 })
