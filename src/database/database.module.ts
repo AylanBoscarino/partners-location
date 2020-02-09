@@ -15,6 +15,8 @@ import mongoose = require('mongoose');
           uri: configService.get<string>('DATABASE_URI'),
           useNewUrlParser: true,
           useUnifiedTopology: true,
+          useCreateIndex: true,
+          useFindAndModify: false,
         };
       },
     }),

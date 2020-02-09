@@ -55,6 +55,30 @@ describe('PartnerService', () => {
     modelMock.create.mockImplementation(async (args: PartnerInterface) => args);
     expect(await service.create(mockedData[0])).toEqual(mockedData[0]);
   });
+
+  it('should build the correct query', async () => {
+    modelMock.findOne.mockImplementation(async () => ({}));
+    const expectedQuery = {
+      coverageArea: {
+        $geoIntersects: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [12, 11],
+          },
+        },
+      },
+      address: {
+        $nearSphere: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [12, 11],
+          },
+        },
+      },
+    };
+    await service.searchNearest(12, 11);
+    expect(modelMock.findOne).toHaveBeenCalledWith(expectedQuery);
+  });
 });
 
 const mockedData: PartnerInterface[] = [

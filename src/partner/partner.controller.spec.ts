@@ -65,12 +65,32 @@ describe('Partner Controller', () => {
     await expect(controller.get({ id: 1 })).rejects.toThrow(NotFoundException);
   });
 
-  it('shoudl create a new partner', async () => {
+  it('should create a new partner', async () => {
     jest
       .spyOn(partnerService, 'create')
       .mockImplementation(async (p: CreatePartnerDto) => mockPartner);
 
     expect(await controller.store(mockCreatePartnerDto)).toEqual(mockPartner);
+  });
+
+  it('should search for nearest partner', async () => {
+    jest
+      .spyOn(partnerService, 'searchNearest')
+      .mockImplementation(async (lng: number, lat: number) => mockPartner);
+    await controller.search('12', '11');
+    expect(partnerService.searchNearest).toHaveBeenCalledWith(12, 11);
+  });
+
+  it('should NOT search for nearest partner', async () => {
+    jest
+      .spyOn(partnerService, 'searchNearest')
+      .mockImplementation(async (lng: number, lat: number) => undefined);
+    await expect(controller.search('doze', 'onze')).rejects.toThrow(
+      BadRequestException,
+    );
+    await expect(controller.search('12', '11')).rejects.toThrow(
+      NotFoundException,
+    );
   });
 });
 
@@ -99,11 +119,11 @@ const mockCreatePartnerDto: CreatePartnerDto = {
         ],
       ],
     ],
-  }, //Área de Cobertura
+  },
   address: {
     type: 'Point',
     coordinates: [-46.57421, -21.785741],
-  }, //
+  },
 };
 
 const mockPartner: PartnerInterface = {

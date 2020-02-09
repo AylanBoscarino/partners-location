@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import {
-  PartnerInterfaceDocument,
-  PartnerInterface,
-} from './partner.interface';
 import { CreatePartnerDto } from './create-partner.dto';
+import {
+  PartnerInterface,
+  PartnerInterfaceDocument,
+} from './partner.interface';
 
 @Injectable()
 export class PartnerService {
@@ -27,5 +27,25 @@ export class PartnerService {
     return this.partnerModel.create(partner);
   }
 
-  async searchNearest(lng: number, lat: number) {}
+  async searchNearest(
+    lng: number,
+    lat: number,
+  ): Promise<PartnerInterface | void> {
+    const geometry = {
+      type: 'Point',
+      coordinates: [lng, lat],
+    };
+    return this.partnerModel.findOne({
+      coverageArea: {
+        $geoIntersects: {
+          $geometry: geometry,
+        },
+      },
+      address: {
+        $nearSphere: {
+          $geometry: geometry,
+        },
+      },
+    });
+  }
 }

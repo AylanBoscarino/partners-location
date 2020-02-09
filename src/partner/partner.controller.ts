@@ -23,6 +23,24 @@ export class PartnerController {
     return { pdvs };
   }
 
+  @Get('search')
+  async search(@Query('lng') queryLng: string, @Query('lat') queryLat: string) {
+    const lng = Number(queryLng);
+    const lat = Number(queryLat);
+    if (isNaN(lng) || isNaN(lat)) {
+      throw new BadRequestException(
+        'query must have a lng and a lat number attributes',
+      );
+    }
+    const nearestPartner = await this.partnerService.searchNearest(lng, lat);
+
+    if (!nearestPartner) {
+      throw new NotFoundException();
+    }
+
+    return nearestPartner;
+  }
+
   @Get(':id')
   async get(@Param() params: FindOneParams) {
     const partner = await this.partnerService.get(params.id);
@@ -36,13 +54,5 @@ export class PartnerController {
   @HttpCode(201)
   async store(@Body() createPartnerDto: CreatePartnerDto) {
     return this.partnerService.create(createPartnerDto);
-  }
-
-  @Get('search')
-  async search(@Query('lng') queryLng: string, @Query('lat') queryLat: string) {
-    return this.partnerService.searchNearest(
-      Number(queryLng),
-      Number(queryLat),
-    );
   }
 }

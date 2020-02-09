@@ -13,7 +13,7 @@ export class PartnerSeeder {
     private readonly partnerModel: Model<PartnerInterfaceDocument>,
   ) {}
   async seed() {
-    const count = await this.partnerModel.count({});
+    const count = await this.partnerModel.countDocuments();
     if (count === 0) {
       const data: PartnerInterface[] = require('../../data/pdvs.json');
       await this.partnerModel.insertMany(data);

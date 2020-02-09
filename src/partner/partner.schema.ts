@@ -1,7 +1,6 @@
-import * as mongoose from 'mongoose';
-import * as AutoIncrementFactory from 'mongoose-sequence';
+import { Schema } from 'mongoose';
 
-export const PartnerSchema = new mongoose.Schema({
+export const PartnerSchema = new Schema({
   id: { type: Number, required: true, unique: true },
   tradingName: { type: String, required: true },
   ownerName: { type: String, required: true },
@@ -17,4 +16,3 @@ export const PartnerSchema = new mongoose.Schema({
 });
 
 PartnerSchema.index({ location: '2dsphere' });
-PartnerSchema.plugin(AutoIncrementFactory(mongoose), { inc_field: 'id' });
