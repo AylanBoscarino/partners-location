@@ -1,7 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
 
+import { IsGeoJson } from '../geojson/validation/decorators';
 import { MultiPolygon, Point } from '../geojson/geojson.interface';
-import { IsGeoJson } from '../util/decorators';
 
 export class CreatePartnerDto {
   @IsNotEmpty()
