@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PartnerService } from './partner.service';
 import { getModelToken } from '@nestjs/mongoose';
-import { createMockFactory, PartialMockType } from './util/tests';
+import { createMockFactory, PartialMockType } from '../util/tests';
 import {
   PartnerInterface,
   PartnerInterfaceDocument,
@@ -62,7 +62,7 @@ const mockedData: PartnerInterface[] = [
     id: 1,
     tradingName: 'Adega da Cerveja - Pinheiros',
     ownerName: 'Zé da Silva',
-    document: '1432132123891/0001', //CNPJ
+    document: '1432132123891/0001',
     coverageArea: {
       type: 'MultiPolygon',
       coordinates: [
