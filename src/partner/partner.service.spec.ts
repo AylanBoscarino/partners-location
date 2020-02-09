@@ -12,7 +12,7 @@ const partnerModelMockFactory = createMockFactory<
   Model<PartnerInterfaceDocument>
 >({
   find: jest.fn(entity => new Promise(resolve => resolve(entity))),
-  findById: jest.fn(entity => new Promise(resolve => resolve(entity))),
+  findOne: jest.fn(entity => new Promise(resolve => resolve(entity))),
   create: jest.fn(entity => new Promise(resolve => resolve(entity))),
 });
 
@@ -46,9 +46,9 @@ describe('PartnerService', () => {
   });
 
   it('should get partner by ID', async () => {
-    modelMock.findById.mockReturnValue(mockedData[0]);
+    modelMock.findOne.mockReturnValue(mockedData[0]);
     expect(await service.get(1)).toEqual(mockedData[0]);
-    expect(modelMock.findById).toBeCalledWith(1);
+    expect(modelMock.findOne).toBeCalledWith({ id: 1 });
   });
 
   it('should create a new partner', async () => {

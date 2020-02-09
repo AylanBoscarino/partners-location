@@ -6,6 +6,7 @@ import {
   PartnerInterfaceDocument,
   PartnerInterface,
 } from './partner.interface';
+import { CreatePartnerDto } from './create-partner.dto';
 
 @Injectable()
 export class PartnerService {
@@ -19,12 +20,10 @@ export class PartnerService {
   }
 
   async get(id: number): Promise<PartnerInterface> {
-    return this.partnerModel.findById(id);
+    return this.partnerModel.findOne({ id });
   }
 
-  async create(
-    partner: Omit<PartnerInterface, 'id'>,
-  ): Promise<PartnerInterface> {
+  async create(partner: CreatePartnerDto): Promise<PartnerInterface> {
     return this.partnerModel.create(partner);
   }
 }
