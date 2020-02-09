@@ -5,9 +5,18 @@ import { AppModule } from './../src/app.module';
 import { PartnerController } from '../src/partner/partner.controller';
 import { PartnerService } from '../src/partner/partner.service';
 import { getModelToken } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
+import { DatabaseModule } from '../src/database/database.module';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+  let mongod: MongoMemoryServer;
+
+  beforeAll(async () => {
+    mongod = new MongoMemoryServer();
+    process.env.DATABASE_URI = await mongod.getConnectionString();
+  });
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -34,6 +43,8 @@ describe('AppController (e2e)', () => {
   });
 
   afterAll(async () => {
+    await mongoose.disconnect();
+    await mongod.stop();
     await app.close();
   });
 });
