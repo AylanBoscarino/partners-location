@@ -10,4 +10,6 @@ RUN npm i -g @nestjs/cli
 
 RUN yarn install
 
-CMD [ "yarn", "start:dev" ]
+RUN yarn test
+
+CMD [ "yarn", "start:prod" ]
