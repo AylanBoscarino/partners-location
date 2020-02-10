@@ -10,6 +10,7 @@ import { Model } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { CreatePartnerDto } from './create-partner.dto';
+import { CounterProvider } from '../counter/counter.provider';
 
 const partnerModelMockFactory = createMockFactory<
   Model<PartnerInterfaceDocument>
@@ -27,6 +28,10 @@ describe('Partner Controller', () => {
         {
           provide: getModelToken('Partner'),
           useFactory: partnerModelMockFactory,
+        },
+        {
+          provide: CounterProvider,
+          useValue: {},
         },
       ],
     }).compile();

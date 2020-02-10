@@ -13,6 +13,14 @@ import { CounterSchema } from './counter.schema';
     ]),
   ],
   providers: [CounterProvider],
-  exports: [CounterProvider],
+  exports: [
+    CounterProvider,
+    MongooseModule.forFeature([
+      {
+        name: 'Counter',
+        schema: CounterSchema,
+      },
+    ]),
+  ],
 })
 export class CounterModule {}

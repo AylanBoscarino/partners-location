@@ -7,6 +7,8 @@ import {
   PartnerInterfaceDocument,
 } from './partner.interface';
 import { Model } from 'mongoose';
+import { CounterInterfaceDocument } from '../counter/counter.interface';
+import { CounterProvider } from '../counter/counter.provider';
 
 const partnerModelMockFactory = createMockFactory<
   Model<PartnerInterfaceDocument>
@@ -19,7 +21,7 @@ const partnerModelMockFactory = createMockFactory<
 describe('PartnerService', () => {
   let service: PartnerService;
   let modelMock: PartialMockType<Model<PartnerInterfaceDocument>>;
-
+  let counterProvider: CounterProvider;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -28,11 +30,18 @@ describe('PartnerService', () => {
           provide: getModelToken('Partner'),
           useFactory: partnerModelMockFactory,
         },
+        {
+          provide: CounterProvider,
+          useValue: {
+            getNextSequenceValue: jest.fn(async (id: string) => 1),
+          },
+        },
       ],
     }).compile();
 
     service = module.get<PartnerService>(PartnerService);
     modelMock = module.get(getModelToken('Partner'));
+    counterProvider = module.get(CounterProvider);
   });
 
   it('should be defined', () => {
@@ -54,6 +63,7 @@ describe('PartnerService', () => {
   it('should create a new partner', async () => {
     modelMock.create.mockImplementation(async (args: PartnerInterface) => args);
     expect(await service.create(mockedData[0])).toEqual(mockedData[0]);
+    expect(counterProvider.getNextSequenceValue).toHaveBeenCalled();
   });
 
   it('should build the correct query', async () => {

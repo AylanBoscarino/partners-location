@@ -7,12 +7,15 @@ import {
   PartnerInterface,
   PartnerInterfaceDocument,
 } from './partner.interface';
+import { CounterProvider } from '../counter/counter.provider';
 
 @Injectable()
 export class PartnerService {
+  private readonly SEQUENCE_VALUE_ID = 'partnerid';
   constructor(
     @InjectModel('Partner')
     private readonly partnerModel: Model<PartnerInterfaceDocument>,
+    private readonly counterProvider: CounterProvider,
   ) {}
 
   async find(): Promise<PartnerInterface[]> {
@@ -24,7 +27,12 @@ export class PartnerService {
   }
 
   async create(partner: CreatePartnerDto): Promise<PartnerInterface> {
-    return this.partnerModel.create(partner);
+    return this.partnerModel.create({
+      ...partner,
+      id: await this.counterProvider.getNextSequenceValue(
+        this.SEQUENCE_VALUE_ID,
+      ),
+    });
   }
 
   async searchNearest(

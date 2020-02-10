@@ -21,6 +21,10 @@ describe('PartnerSeeder', () => {
           provide: getModelToken('Partner'),
           useFactory: partnerModelMockFactory,
         },
+        {
+          provide: getModelToken('Counter'),
+          useValue: {},
+        },
       ],
     }).compile();
 
