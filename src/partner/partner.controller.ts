@@ -15,6 +15,7 @@ import { FindOneParams } from '../util/validation/find-one-params';
 
 @Controller('partner')
 export class PartnerController {
+  private readonly DUPLICATED_FIELD_ERROR = 11000;
   constructor(private readonly partnerService: PartnerService) {}
 
   @Get()
@@ -53,6 +54,13 @@ export class PartnerController {
   @Post()
   @HttpCode(201)
   async store(@Body() createPartnerDto: CreatePartnerDto) {
-    return this.partnerService.create(createPartnerDto);
+    try {
+      return await this.partnerService.create(createPartnerDto);
+    } catch (error) {
+      if (error.code === this.DUPLICATED_FIELD_ERROR) {
+        throw new BadRequestException("field 'document' already registered");
+      }
+      throw error;
+    }
   }
 }
