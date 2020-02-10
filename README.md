@@ -4,7 +4,7 @@ This web API lets you store the Partner's location coordinates and coverage area
 
 ## Deploying the app
 
-This project was built on top of [Docker](https://www.docker.com/) containers, booth the app and the database.
+This project was built on top of [Docker](https://www.docker.com/) containers, both the app and the database.
 Once you have Docker and [docker-compose](https://docs.docker.com/compose/) running on your machine all you have to do is open the terminal on the project's folder and run the following command:
 
 ```sh
@@ -13,8 +13,8 @@ docker-compose up
 
 > Notice that on some Linux subsystems it might be necessary run the command with sudo depending on the Docker installation
 
-While building the container the project's binaries are compiled, dependencies are downloaded and the tests are run as well, so it may take a couple of minutes
-The containers will host the app and the database on the ports 3000 and 27017 respectively, if those ports are busy on your machine you might need to change the designated ports on the docker-compose file changing the value at the left of the colon (:) to the desired port.
+While building the container the project's binaries are compiled, dependencies are downloaded and the tests are executed, so it may take a couple of minutes.
+The containers will host the app and the database on the ports 3000 and 27017 respectively, if those ports are busy on your machine, you may need to change the designated ports on the docker-compose file changing the value at the left of the colon (:) to the desired port.
 
 ## Overview
 
